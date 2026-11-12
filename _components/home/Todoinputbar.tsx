@@ -2,6 +2,7 @@
 
 import { ViewportStore } from "@/_stores/viewport_store";
 import { CreateToDo } from "@/app/_fetchs/CreateToDo";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components"
@@ -84,6 +85,8 @@ export default function Todoinputbar() {
         }
     });
 
+    const router = useRouter();
+
     const onValid = async ({ todoname }: I_FormValue) => {
         const trimmedToDo = todoname.trim();
 
@@ -93,6 +96,7 @@ export default function Todoinputbar() {
             const newToDo = await CreateToDo(trimmedToDo);
             console.log(newToDo);
             reset();
+            router.push("/")
         } catch (error) {
             console.log(error);
             reset();

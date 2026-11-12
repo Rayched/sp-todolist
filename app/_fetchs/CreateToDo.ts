@@ -1,6 +1,6 @@
 //할 일 등록 api fetch
 
-interface I_ToDo {
+export interface I_ToDo {
     id: number;
     tenantId: string;
     name: string;
