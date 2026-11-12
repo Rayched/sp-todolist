@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "../_styles/globals.css";
+import "../_styles/global.css";
 import ViewportListener from "@/_components/commons/ViewportListener";
-import HeaderBar from "@/_components/commons/HeaderBar";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -21,10 +20,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html>
       <body>
         <ViewportListener />
-        <header>
-          <HeaderBar />
-        </header>
-        {children}
+        <div className="contents_area">
+          <header>
+            <a href="/">
+              <img id={"logo_large"} src={"/header_logo/logo_large.svg"} />
+              <img id={"logo_small"} src={'/header_logo/logo_small.svg'} />
+            </a>
+          </header>
+          {children}
+        </div>
       </body>
     </html>
   );

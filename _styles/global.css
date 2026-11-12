@@ -53,15 +53,38 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-/*root layout, header 요소 css style*/
+
+.contents_area {
+	width: 100%;
+	max-width: 1300px;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
 header {
 	width: 100%;
 	height: 10dvh;
 	max-height: 60px;
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
-	border-style: solid;
+	align-items: center;
+	justify-content: flex-start;
 	border-color: #EDE9FE;
-	border-bottom-width: 2px;
+	border-style: solid;
+	border-bottom-width: 3px;
+
+	@media screen and (max-width: 500px){
+		#logo_large {
+			display: none;
+		}		
+	}
+
+	@media screen and (min-width: 501px){
+		#logo_small {
+			display: none;
+		}	
+	}
 }
