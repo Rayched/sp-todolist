@@ -30,6 +30,12 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	width: 100dvw;
+	max-width: 1920px;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	line-height: 1;
 }
 ol, ul {
@@ -46,4 +52,16 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+/*root layout, header 요소 css style*/
+header {
+	width: 100%;
+	height: 10dvh;
+	max-height: 60px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	border-style: solid;
+	border-color: #EDE9FE;
+	border-bottom-width: 2px;
 }
