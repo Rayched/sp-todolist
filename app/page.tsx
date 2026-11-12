@@ -1,7 +1,10 @@
+import Todoinputbar from "@/_components/home/Todoinputbar";
+import styles from "../_styles/home/homepage.module.css";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div>
+    <div className={styles.homepage_wrapper}>
+      <Todoinputbar />
     </div>
   );
 }

@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "do it;",
   description: "할 일 목록을 관리하는 To Do 웹 서비스",
-  icons: "/favicon/favicon.ico"
+  icons: "/imgs/favicon/favicon.ico"
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -20,13 +20,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html>
       <body>
         <ViewportListener />
-        <div className="contents_area">
-          <header>
+        <header>
+          <div className="header_logo_area">
             <a href="/">
-              <img id={"logo_large"} src={"/header_logo/logo_large.svg"} />
-              <img id={"logo_small"} src={'/header_logo/logo_small.svg'} />
+              <img id={"logo_large"} src={"/imgs/header_logo/logo_large.svg"} />
+              <img id={"logo_small"} src={'/imgs/header_logo/logo_small.svg'} />
             </a>
-          </header>
+          </div>
+        </header>
+        <div className="contents_area">
           {children}
         </div>
       </body>
