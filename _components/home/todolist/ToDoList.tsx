@@ -7,6 +7,7 @@ import { useStore } from "zustand";
 import ShowDoings from "./ShowToDos";
 import ShowDones from "./ShowDones";
 import { ToDosDataStore } from "@/_stores/todosdata_store";
+import { useEffect } from "react";
 
 interface I_ShowToDos {
     params: I_ToDo[];
@@ -34,6 +35,11 @@ const Wrapper = styled.div`
 
 export default function ShowToDos({ params }: I_ShowToDos) {
     const { NowViewportWidth } = useStore(ViewportStore);
+    const { ToDosData } = useStore(ToDosDataStore);
+
+    useEffect(() => {
+        console.log(ToDosData)
+    }, [ToDosData]);
 
     return (
         <Wrapper>

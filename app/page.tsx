@@ -2,6 +2,7 @@ import Todoinputbar from "@/_components/home/ToDoInputs/Todoinputbar";
 import styles from "../_styles/home/homepage.module.css";
 import { GetToDos } from "./_fetchs/GetToDos";
 import ShowToDos from "@/_components/home/todolist/ToDoList";
+import ToDoSetting from "@/_components/commons/TodoSetting";
 
 export default async function HomePage() {
   const ToDoDatas = await GetToDos();
@@ -13,6 +14,7 @@ export default async function HomePage() {
   return (
     <div className={styles.homepage_wrapper}>
       <Todoinputbar />
+      <ToDoSetting tododata={ToDoDatas} />
       {
         ToDoDatas ? <ShowToDos params={ToDoDatas} /> : null
       }

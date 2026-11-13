@@ -5,6 +5,8 @@ import styled from "styled-components"
 import { I_Showitems, ShowItems_Container } from "./showitems/showitems_commons";
 import { ToDoEmpty } from "./showitems/EmptyImage";
 import { ToDoItem } from "./showitems/ToDoItems";
+import { useStore } from "zustand";
+import { ToDosDataStore } from "@/_stores/todosdata_store";
 
 /**
  * ShowToDos, ShowDones props 공통 적용되는 typing
@@ -18,6 +20,8 @@ const Container = styled(ShowItems_Container)``;
  * isComplited: false
  */
 export default function ShowToDos({ tododatas, isDesktop }: I_ShowTodos) {
+    const { ToDosData } = useStore(ToDosDataStore);
+
     return (
         <Container isdesktop={isDesktop}>
             <div className="container_titles">
@@ -31,16 +35,19 @@ export default function ShowToDos({ tododatas, isDesktop }: I_ShowTodos) {
                     tododatas.length <= 0 ? (
                         <ToDoEmpty isdesktop={isDesktop} />
                     ) : (
-                        tododatas.map((todo) => {
-                            return (
-                                <ToDoItem
-                                    key={`${todo.tenantId}_${todo.id}`}
-                                    todo_id={todo.id}
-                                    todo_name={todo.name}
-                                    is_completed={todo.isCompleted}
-                                    tenant_id={todo.tenantId}
-                                />
-                            );
+                        ToDosData.map((todo) => {
+                            if (todo.isDone === false) {
+                                return (
+                                    <ToDoItem
+                                        key={todo.todo_id}
+                                        todo_id={todo.todo_id}
+                                        todo_name={todo.todo_name}
+                                        is_completed={todo.isDone}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
                         })
                     )
                 }

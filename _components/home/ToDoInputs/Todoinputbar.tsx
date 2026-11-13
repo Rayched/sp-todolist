@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components"
 import { useStore } from "zustand";
 import { LargeInputButton, SmallInputButtons } from "./Inputbuttons";
+import { ToDosDataStore } from "@/_stores/todosdata_store";
 
 interface I_FormValue {
     todoname: string;
@@ -43,6 +44,7 @@ const ToDoInput = styled.input`
 
 export default function Todoinputbar() {
     const { NowViewportWidth } = useStore(ViewportStore);
+    const { addNewToDo } = useStore(ToDosDataStore);
 
     const { register, reset, handleSubmit, formState: { errors, isSubmitted } } = useForm<I_FormValue>({
         defaultValues: {
@@ -61,7 +63,11 @@ export default function Todoinputbar() {
             const newToDo = await CreateToDo(trimmedToDo);
             console.log(newToDo);
             reset();
-            router.push("/")
+            addNewToDo({
+                todo_id: newToDo.id,
+                todo_name: newToDo.name,
+                isDone: false
+            });
         } catch (error) {
             console.log(error);
             reset();

@@ -1,6 +1,6 @@
 "use client"
 
-import { ToDosDataStore } from "@/_stores/todosdata_store";
+import { I_ToDosData, ToDosDataStore } from "@/_stores/todosdata_store";
 import { I_ToDo } from "@/app/_fetchs/CreateToDo";
 import { useEffect } from "react";
 import { useStore } from "zustand";
@@ -18,8 +18,17 @@ export default function ToDoSetting({ tododata }: I_ToDoSetting) {
     useEffect(() => {
         if (tododata.length === 0) return;
 
-        deClareToDo(tododata);
-    }, []);
+        const ConvertData = tododata.map((data) => {
+            const Format: I_ToDosData = {
+                todo_id: data.id,
+                todo_name: data.name,
+                isDone: data.isCompleted
+            };
+
+            return Format;
+        });
+        deClareToDo(ConvertData);
+    }, [tododata]);
 
     return null;
 }

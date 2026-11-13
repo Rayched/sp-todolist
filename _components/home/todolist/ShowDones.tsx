@@ -4,12 +4,16 @@ import styled from "styled-components";
 import { I_Showitems, ShowItems_Container } from "./showitems/showitems_commons";
 import { DoneEmpty } from "./showitems/EmptyImage";
 import { DoneItem } from "./showitems/ToDoItems";
+import { ToDosDataStore } from "@/_stores/todosdata_store";
+import { useStore } from "zustand";
 
 interface I_ShowDones extends I_Showitems { };
 
 const Container = styled(ShowItems_Container)``;
 
 export default function ShowDones({ tododatas, isDesktop }: I_ShowDones) {
+    const { ToDosData } = useStore(ToDosDataStore);
+
     return (
         <Container isdesktop={isDesktop}>
             <div className="container_titles">
@@ -23,16 +27,20 @@ export default function ShowDones({ tododatas, isDesktop }: I_ShowDones) {
                     tododatas.length <= 0 ? (
                         <DoneEmpty isdesktop={isDesktop} />
                     ) : (
-                        tododatas.map((todo) => {
-                            return (
-                                <DoneItem
-                                    key={`${todo.tenantId}_${todo.id}`}
-                                    todo_id={todo.id}
-                                    todo_name={todo.name}
-                                    is_completed={todo.isCompleted}
-                                    tenant_id={todo.tenantId}
-                                />
-                            );
+                        ToDosData.map((todo) => {
+                            if (todo.isDone === true) {
+                                return (
+                                    <DoneItem
+                                        key={todo.todo_id}
+                                        todo_id={todo.todo_id}
+                                        todo_name={todo.todo_name}
+                                        is_completed={todo.isDone}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+
                         })
                     )
                 }

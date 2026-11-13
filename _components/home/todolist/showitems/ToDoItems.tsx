@@ -1,14 +1,15 @@
 "use client"
 
+import { ToDosDataStore } from "@/_stores/todosdata_store";
 import { UpdateToDo } from "@/app/_fetchs/UpdateToDo";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import { useStore } from "zustand";
 
 interface I_ToDoItem {
     todo_id: number;
     todo_name: string;
     is_completed: boolean;
-    tenant_id: string;
 };
 
 const Container = styled.div`
@@ -43,8 +44,9 @@ const Container = styled.div`
     }
 `;
 
-export function ToDoItem({ todo_id, todo_name, is_completed, tenant_id }: I_ToDoItem) {
+export function ToDoItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
     const router = useRouter();
+    const { updateToDoData } = useStore(ToDosDataStore);
 
     const redirect_detailpage = () => {
         router.push(`/items/${todo_id}`);
@@ -52,6 +54,7 @@ export function ToDoItem({ todo_id, todo_name, is_completed, tenant_id }: I_ToDo
 
     const CheckboxClicked = async () => {
         try {
+            updateToDoData({ targetId: todo_id, isDone: true });
             const Test = await UpdateToDo({
                 todo_id: todo_id,
                 todo_name: todo_name,
@@ -78,8 +81,9 @@ export function ToDoItem({ todo_id, todo_name, is_completed, tenant_id }: I_ToDo
     );
 }
 
-export function DoneItem({ todo_id, todo_name, is_completed, tenant_id }: I_ToDoItem) {
+export function DoneItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
     const router = useRouter();
+    const { updateToDoData } = useStore(ToDosDataStore);
 
     const redirect_detailpage = () => {
         router.push(`/items/${todo_id}`);
@@ -87,6 +91,7 @@ export function DoneItem({ todo_id, todo_name, is_completed, tenant_id }: I_ToDo
 
     const CheckboxClicked = async () => {
         try {
+            updateToDoData({ targetId: todo_id, isDone: false });
             const Test = await UpdateToDo({
                 todo_id: todo_id,
                 todo_name: todo_name,

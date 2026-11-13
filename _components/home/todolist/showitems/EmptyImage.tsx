@@ -44,9 +44,9 @@ export function ToDoEmpty({ isdesktop }: I_Empty) {
         <Container>
             {
                 isdesktop === "true" ? (
-                    <img src={'/imgs/showtodos/Type=Todo, Size=Large.svg'} />
+                    <img src={'/imgs/todoemptys/Type=Todo, Size=Large.svg'} />
                 ) : (
-                    <img src={'/imgs/showtodos/Type=Todo, Size=Small.svg'} />
+                    <img src={'/imgs/todoemptys/Type=Todo, Size=Small.svg'} />
                 )
             }
             <TextBox>
