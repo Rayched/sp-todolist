@@ -4,7 +4,7 @@ import { I_ToDo } from "@/app/_fetchs/CreateToDo";
 import styled from "styled-components"
 import { I_Showitems, ShowItems_Container } from "./showitems/showitems_commons";
 import { ToDoEmpty } from "./showitems/EmptyImage";
-import ToDoItem from "./showitems/ToDoItem";
+import { ToDoItem } from "./showitems/ToDoItems";
 
 /**
  * ShowToDos, ShowDones props 공통 적용되는 typing
@@ -33,11 +33,13 @@ export default function ShowToDos({ tododatas, isDesktop }: I_ShowTodos) {
                     ) : (
                         tododatas.map((todo) => {
                             return (
-                                <ToDoItem key={`${todo.tenantId}_${todo.id}`} todo_id={todo.id} todo_name={todo.name} is_completed={todo.isCompleted} tenant_id={todo.tenantId}>
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="16" cy="16" r="15" fill="#FEFCE8" strokeWidth="2" stroke="#0F172A" />
-                                    </svg>
-                                </ToDoItem>
+                                <ToDoItem
+                                    key={`${todo.tenantId}_${todo.id}`}
+                                    todo_id={todo.id}
+                                    todo_name={todo.name}
+                                    is_completed={todo.isCompleted}
+                                    tenant_id={todo.tenantId}
+                                />
                             );
                         })
                     )

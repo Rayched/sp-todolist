@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { I_Showitems, ShowItems_Container } from "./showitems/showitems_commons";
 import { DoneEmpty } from "./showitems/EmptyImage";
-import ToDoItem from "./showitems/ToDoItem";
+import { DoneItem } from "./showitems/ToDoItems";
 
 interface I_ShowDones extends I_Showitems { };
 
@@ -25,18 +25,13 @@ export default function ShowDones({ tododatas, isDesktop }: I_ShowDones) {
                     ) : (
                         tododatas.map((todo) => {
                             return (
-                                <ToDoItem
+                                <DoneItem
                                     key={`${todo.tenantId}_${todo.id}`}
                                     todo_id={todo.id}
                                     todo_name={todo.name}
                                     is_completed={todo.isCompleted}
                                     tenant_id={todo.tenantId}
-                                >
-                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="16" cy="16" r="16" fill="#7C3AED" />
-                                        <path d="M8 16.2857L13.8182 22L24 12" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" stroke="#FEFCE8" />
-                                    </svg>
-                                </ToDoItem>
+                                />
                             );
                         })
                     )
