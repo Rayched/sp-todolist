@@ -7,23 +7,25 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components"
 import { useStore } from "zustand";
+import { LargeInputButton, SmallInputButtons } from "./Inputbuttons";
 
 interface I_FormValue {
     todoname: string;
 };
 
 const InputForm = styled.form`
-    width: 95vw;
+    width: 100dvw;
     height: 5vh;
     max-width: 1300px;
     margin-top: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 `;
 
 const ToDoInput = styled.input`
-    width: 70%;
+    width: 65%;
     height: 100%;
     max-height: 50px;
     padding-left: 15px;
@@ -39,46 +41,9 @@ const ToDoInput = styled.input`
     }
 `;
 
-const InputButton = styled.button`
-    width: 25%;
-    height: 100%;
-    max-width: 160px;
-    max-height: 55px;
-    margin-left: 1%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: #EDE9FE;
-    background-color: #7C3AED;
-    border: 2px solid black;
-    border-radius: 25px;
-    font-size: 18px;
-    box-shadow: 1px 2px rgba(0, 0, 0, 1);
-
-    span {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    img {
-        width: 21px;
-        height: 21px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 5%;
-    }
-`;
-
-const defaultURL = "https://assignment-todolist-api.vercel.app/api/rayched";
-
 export default function Todoinputbar() {
     const { NowViewportWidth } = useStore(ViewportStore);
+
     const { register, reset, handleSubmit, formState: { errors, isSubmitted } } = useForm<I_FormValue>({
         defaultValues: {
             todoname: ""
@@ -132,23 +97,16 @@ export default function Todoinputbar() {
                     },
                 })}
             />
-            <InputButton>
-                {
-                    !NowViewportWidth || NowViewportWidth > 500 ? (
-                        <span>
-                            <img src={'/imgs/Property 1=plus.svg'} />
-                            <label>추가하기</label>
-                        </span>
-                    ) : null
-                }
-                {
-                    NowViewportWidth && NowViewportWidth <= 500 ? (
-                        <span>
-                            <img src={`imgs/Property 1=plus.svg`} />
-                        </span>
-                    ) : null
-                }
-            </InputButton>
+            {
+                !NowViewportWidth || NowViewportWidth > 500 ? (
+                    <LargeInputButton />
+                ) : null
+            }
+            {
+                NowViewportWidth && NowViewportWidth <= 500 ? (
+                    <SmallInputButtons />
+                ) : null
+            }
         </InputForm>
     );
 }

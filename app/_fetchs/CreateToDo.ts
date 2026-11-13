@@ -4,7 +4,7 @@ export interface I_ToDo {
     id: number;
     tenantId: string;
     name: string;
-    isComplited: boolean;
+    isCompleted: boolean;
     memo: string | null;
     imageUrl: string | null;
 };
