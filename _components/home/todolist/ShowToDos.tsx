@@ -32,7 +32,7 @@ export default function ShowToDos({ tododatas, isDesktop }: I_ShowTodos) {
             </div>
             <div className="container_bodys">
                 {
-                    tododatas.length <= 0 ? (
+                    ToDosData.filter((data) => data.isDone === false).length <= 0 ? (
                         <ToDoEmpty isdesktop={isDesktop} />
                     ) : (
                         ToDosData.map((todo) => {

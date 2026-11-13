@@ -24,7 +24,7 @@ export default function ShowDones({ tododatas, isDesktop }: I_ShowDones) {
             </div>
             <div className="container_bodys">
                 {
-                    tododatas.length <= 0 ? (
+                    ToDosData.filter((data) => data.isDone === true).length <= 0 ? (
                         <DoneEmpty isdesktop={isDesktop} />
                     ) : (
                         ToDosData.map((todo) => {
