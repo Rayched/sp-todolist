@@ -2,14 +2,7 @@
 
 import styled from "styled-components"
 
-interface I_EditButton {
-    btnText: string;
-    textColor: string;
-    bgColor: string;
-    children: React.ReactNode;
-};
-
-const Button = styled.button`
+const DetailButton = styled.button`
     width: 50%;
     height: 100%;
     max-width: 120px;
@@ -41,32 +34,30 @@ const Button = styled.button`
     }
 `;
 
-function ButtonFormat({ btnText, textColor, bgColor, children }: I_EditButton) {
-    return (
-        <Button style={{ color: textColor, backgroundColor: bgColor }}>
-            <div className="iconbox">{children}</div>
-            <span>{btnText}</span>
-        </Button>
-    );
+const ImageContainer_commons = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 10px;
+
+    /**desktop version, 크기 설정 */
+    @media screen and (min-width: 1100px){
+        width: 35dvw;
+        max-width: 383px;
+        height: 32dvh;
+        max-height: 310px;
+    };
+
+    /**태블릿 및 모바일 version 크기 설정 */
+    @media screen and (max-width: 1099px){
+        width: 85dvw;
+        height: 32dvh;
+    };
+`;
+
+export const DetailCommons = {
+    img_container: ImageContainer_commons,
+    edit_buttons: DetailButton
 };
-
-export function EditButton() {
-    return (
-        <ButtonFormat btnText="수정 완료" textColor="black" bgColor="#BEF264">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 7L6.5 11.5L14 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="#0F172A" />
-            </svg>
-        </ButtonFormat>
-    );
-}
-
-export function DeleteButton() {
-    return (
-        <ButtonFormat btnText="삭제하기" textColor="white" bgColor="#F43F5E">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 4L12 12" strokeWidth="2" strokeLinecap="round" stroke="white" />
-                <path d="M12 4L4 12" strokeWidth="2" strokeLinecap="round" stroke="white" />
-            </svg>
-        </ButtonFormat>
-    );
-}

@@ -31,7 +31,7 @@ const ToDoInput = styled.input`
     max-height: 50px;
     padding-left: 15px;
     display: block;
-    border: 2px solid black;
+    border: 2px solid #0f172a;
     background-color: #F1F5F9;
     border-radius: 25px;
     box-shadow: 1px 2px rgba(0, 0, 0, 1);
@@ -46,13 +46,17 @@ export default function Todoinputbar() {
     const { NowViewportWidth } = useStore(ViewportStore);
     const { addNewToDo } = useStore(ToDosDataStore);
 
-    const { register, reset, handleSubmit, formState: { errors, isSubmitted } } = useForm<I_FormValue>({
+    const {
+        register,
+        reset,
+        handleSubmit,
+        formState: { errors, isSubmitted },
+        watch
+    } = useForm<I_FormValue>({
         defaultValues: {
             todoname: ""
         }
     });
-
-    const router = useRouter();
 
     const onValid = async ({ todoname }: I_FormValue) => {
         const trimmedToDo = todoname.trim();
@@ -105,12 +109,16 @@ export default function Todoinputbar() {
             />
             {
                 !NowViewportWidth || NowViewportWidth > 500 ? (
-                    <LargeInputButton />
+                    <LargeInputButton
+                        isEmptys={watch("todoname")}
+                    />
                 ) : null
             }
             {
                 NowViewportWidth && NowViewportWidth <= 500 ? (
-                    <SmallInputButtons />
+                    <SmallInputButtons
+                        isEmptys={watch("todoname")}
+                    />
                 ) : null
             }
         </InputForm>
