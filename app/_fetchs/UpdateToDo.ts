@@ -1,20 +1,20 @@
 /**
- * 할 일 수정 fetch 함수
+ * 할 일 수정 및 삭제 fetch 함수
  */
 
-import { I_ToDo } from "./CreateToDo";
-
-interface I_UpdateToDo {
+interface I_ChangeCompletedValue {
     todo_id: number;
-    todo_name: string;
     isCompleted: boolean;
-    memo: string | null;
 };
 
+interface I_DeleteToDo {
+    todo_id: number;
+}
 
-export async function UpdateToDo({ todo_id, todo_name, isCompleted, memo }: I_UpdateToDo) {
-    const TenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+const TenantId = process.env.NEXT_PUBLIC_TENANT_ID;
 
+//Home, 할 일 완료 여부 update fetch function
+export async function ChangeCompletedValue({ todo_id, isCompleted }: I_ChangeCompletedValue) {
     if (!TenantId) {
         throw new Error("TenantId가 설정되지 않았습니다.");
     }
@@ -27,9 +27,7 @@ export async function UpdateToDo({ todo_id, todo_name, isCompleted, memo }: I_Up
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: todo_name,
-                isCompleted: isCompleted,
-                memo: memo
+                isCompleted: isCompleted
             })
         }
     );
@@ -44,6 +42,40 @@ export async function UpdateToDo({ todo_id, todo_name, isCompleted, memo }: I_Up
 
         throw new Error("To Do 수정 실패");
     }
+
+    return Data;
+}
+
+//할 일 수정 fetch 함수
+export async function UpdateToDo() {
+
+}
+
+//할 일 삭제 fetch 함수
+export async function DeleteToDo({ todo_id }: I_DeleteToDo) {
+    if (!TenantId) {
+        throw new Error("TenantId가 설정되지 않았습니다.");
+    }
+
+    const resp = await fetch(
+        `https://assignment-todolist-api.vercel.app/api/${TenantId}/items/${todo_id}`,
+        {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+
+    const Data = await resp.json();
+
+    if (!Data) {
+        console.error("API Error:", {
+            status: resp.status,
+            response: Data
+        })
+        throw new Error("To Do 삭제 실패");
+    };
 
     return Data;
 }

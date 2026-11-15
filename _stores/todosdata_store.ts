@@ -13,6 +13,7 @@ interface I_ToDosDataStore {
     deClareToDo: (todos: I_ToDosData[]) => void;
     addNewToDo: (newValue: I_ToDosData) => void;
     updateToDoData: ({ targetId, isDone }: { targetId: number, isDone: boolean }) => void;
+    deleteToDoData: ({ targetId }: { targetId: number }) => void;
 };
 
 export const ToDosDataStore = create<I_ToDosDataStore>((set) => ({
@@ -43,6 +44,23 @@ export const ToDosDataStore = create<I_ToDosDataStore>((set) => ({
                 ToDosData: [
                     ...prev.ToDosData.slice(0, idx),
                     UpdateValue,
+                    ...prev.ToDosData.slice(idx + 1)
+                ]
+            }
+        }
+    }),
+    deleteToDoData: ({ targetId }) => set((prev) => {
+        const idx = prev.ToDosData.findIndex((data) => data.todo_id === targetId);
+
+        if (idx === -1) {
+            console.log(`동일한 Id를 가진 할 일을 찾지 못했습니다.`);
+            return {
+                ToDosData: prev.ToDosData
+            }
+        } else {
+            return {
+                ToDosData: [
+                    ...prev.ToDosData.slice(0, idx),
                     ...prev.ToDosData.slice(idx + 1)
                 ]
             }

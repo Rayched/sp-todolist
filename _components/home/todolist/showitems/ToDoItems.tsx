@@ -1,7 +1,7 @@
 "use client"
 
 import { ToDosDataStore } from "@/_stores/todosdata_store";
-import { UpdateToDo } from "@/app/_fetchs/UpdateToDo";
+import { ChangeCompletedValue } from "@/app/_fetchs/UpdateToDo";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import { useStore } from "zustand";
@@ -44,7 +44,7 @@ const Container = styled.div`
     }
 `;
 
-export function ToDoItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
+export function ToDoItem({ todo_id, todo_name }: I_ToDoItem) {
     const router = useRouter();
     const { updateToDoData } = useStore(ToDosDataStore);
 
@@ -55,11 +55,9 @@ export function ToDoItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
     const CheckboxClicked = async () => {
         try {
             updateToDoData({ targetId: todo_id, isDone: true });
-            const Test = await UpdateToDo({
+            const Test = await ChangeCompletedValue({
                 todo_id: todo_id,
-                todo_name: todo_name,
                 isCompleted: true,
-                memo: ""
             });
             console.log(Test);
         } catch (error) {
@@ -81,7 +79,7 @@ export function ToDoItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
     );
 }
 
-export function DoneItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
+export function DoneItem({ todo_id, todo_name }: I_ToDoItem) {
     const router = useRouter();
     const { updateToDoData } = useStore(ToDosDataStore);
 
@@ -92,11 +90,10 @@ export function DoneItem({ todo_id, todo_name, is_completed }: I_ToDoItem) {
     const CheckboxClicked = async () => {
         try {
             updateToDoData({ targetId: todo_id, isDone: false });
-            const Test = await UpdateToDo({
+            const Test = await ChangeCompletedValue({
                 todo_id: todo_id,
-                todo_name: todo_name,
+                //todo_name: todo_name,
                 isCompleted: false,
-                memo: ""
             });
             console.log(Test);
         } catch (error) {

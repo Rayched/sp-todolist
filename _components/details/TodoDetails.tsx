@@ -1,12 +1,16 @@
 "use client"
 
 import { I_ToDo } from "@/app/_fetchs/CreateToDo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { DoneCheckbox, ToDoCheckbox } from "../home/todolist/showitems/showitems_commons";
 import { DetailCommons } from "./detail_commons";
 import { AddImages, EditImages } from "./AddImages";
 import AddMemobox from "./AddMemobox";
+import { ToDosDataStore } from "@/_stores/todosdata_store";
+import { useStore } from "zustand";
+import { DeleteToDo } from "@/app/_fetchs/UpdateToDo";
+import { useRouter } from "next/navigation";
 
 interface I_ToDoDetails {
     detaildata: I_ToDo
@@ -26,7 +30,7 @@ const Wrapper = styled.div`
     align-items: center;
 `;
 
-const ToDoItem = styled.div`
+const ToDoItem = styled.div<{ completed: string }>`
     width: 90%;
     height: 4dvh;
     padding: 5px 0px;
@@ -37,10 +41,11 @@ const ToDoItem = styled.div`
     justify-content: center;
     border: 2px solid black;
     border-radius: 15px;
+    background-color: ${(props) => props.completed === "true" ? "#EDE9FE" : "white"};
 
     .checkbox_area {
         width: 30%;
-        max-width: 65px;
+        max-width: 40px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -48,19 +53,31 @@ const ToDoItem = styled.div`
     }
     
     .todoname_area {
+        width: 15%;
         height: 100%;
+        margin-left: 3px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        text-decoration: underline;
+        justify-content: flex-start;
+
+        input {
+            width: auto;
+            height: 80%;
+            display: block;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: underline;
+            background-color: ${(props) => props.completed === "true" ? "#EDE9FE" : "white"};
+        }
     }
 `;
 
 const ResponsiveArea = styled.div`
     width: 90%;
-    min-height: 40dvh;
-    margin-top: 1%;
+    min-height: 45dvh;
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -113,56 +130,123 @@ const DeleteButton = styled(DetailCommons.edit_buttons)`
 `;
 
 export default function ToDoDetails({ detaildata }: I_ToDoDetails) {
-    const [Selected, setSelected] = useState(false);
-    //아이템 체크 여부 관리
+    //편집 data state's
+    const [ToDoName, setToDoName] = useState("");
+    const [Completed, setCompleted] = useState(false);
+    const [ImgUrl, setImgUrl] = useState<string>("");
+    const [MemoValue, setMemoValue] = useState<string>("");
 
-    /**이미지 및 메모 값 관리 */
-    const [ImgUrl, setImgUrl] = useState("");
-    const [MemoValue, setMemoValue] = useState("");
+    const { deleteToDoData } = useStore(ToDosDataStore);
+
+    const router = useRouter();
 
     //체크박스 클릭 event
     const CheckboxClicked = () => {
-        setSelected(!Selected);
-    }
+        setCompleted(!Completed);
+    };
+
+    //Todoname input change event
+    const ToDoNameChangeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {
+            currentTarget: { value }
+        } = e;
+        setToDoName(value)
+    };
+
+    //DeleteBtn Click Event Listener
+    const DelBtnClicked = async () => {
+        const Confirms = window.confirm(`'할 일 명: ${detaildata.name}'\n해당 할일을 삭제 하시겠습니까?`);
+
+        if (!Confirms) {
+            return;
+        } else {
+            await DeleteToDo({ todo_id: detaildata.id });
+            deleteToDoData({ targetId: detaildata.id });
+            router.push("/");
+        }
+    };
+
+    /**
+     * 기존 todoitem의 값들 (name, isCompleted)
+     * 개별 state에 업데이트
+     */
+
+    /**
+     * detaildata => api로 가져온 할 일 상세 데이터
+     * imageurl, memo data가 null이 아닌 경우
+     * 기존에 추가된 이미지와 메모가 있다면
+     * 이를 화면에 출력해야 한다.
+     * 
+     * 그리고 detail page에서 이미지와 메모를 출력하는 역할을 하는
+     * <EditImages />, <AddMemobox />, 이하 두 컴포넌트는
+     * 개별적으로 전달된 state 값을 참고해서 image와 memo를 출력한다.
+     * 
+     * 두 컴포넌트에 전달되는 각기 다른 두개의 state의 초기 값은
+     * 전부 ""이기에 Rendering 되기 전 미리 useEffect hook 활용해서
+     * state 값을 업데이트를 해둔다.
+     */
+    useEffect(() => {
+        //imageurl, memodata null인 경우 대비
+        if (!detaildata.imageUrl && !detaildata.memo) {
+            setCompleted(detaildata.isCompleted);
+            setToDoName(detaildata.name);
+            return;
+        } else if (!detaildata.imageUrl && detaildata.memo !== null) {
+            setMemoValue(detaildata.memo);
+        } else if (detaildata.imageUrl !== null && !detaildata.memo) {
+            setImgUrl(detaildata.imageUrl);
+        } else if (detaildata.imageUrl !== null && detaildata.memo !== null) {
+            setMemoValue(detaildata.memo);
+            setImgUrl(detaildata.imageUrl);
+        };
+        setCompleted(detaildata.isCompleted);
+        setToDoName(detaildata.name);
+    }, []);
 
     return (
         <Wrapper>
-            <ToDoItem style={{ backgroundColor: Selected ? "#EDE9FE" : "white" }}>
+            <ToDoItem completed={Completed ? "true" : "false"}>
                 <div className="checkbox_area" onClick={CheckboxClicked}>
                     {
-                        !Selected ? (
+                        !Completed ? (
                             <ToDoCheckbox />
                         ) : (
                             <DoneCheckbox />
                         )
                     }
                 </div>
-                <div className="todoname_area">{detaildata.name}</div>
+                <div className="todoname_area">
+                    <input
+                        type="text"
+                        value={ToDoName}
+                        onChange={ToDoNameChangeEvent}
+                    />
+                </div>
             </ToDoItem>
             <ResponsiveArea>
                 <div className="ImageAndMemoArea">
                     {
                         ImgUrl === "" ? (
-                            <AddImages
-                                is_selected={Selected}
-                            />
+                            <AddImages />
                         ) : (
                             <EditImages
                                 imgurl={ImgUrl}
-                                is_selected={Selected}
                             />
                         )
                     }
-                    <AddMemobox />
+                    <AddMemobox
+                        memotext={MemoValue}
+                        setMemotext={setMemoValue}
+                    />
                 </div>
                 <div className="buttonsbox">
-                    <EditButton is_select={Selected ? "true" : "false"} disabled={Selected ? false : true}>
+                    <EditButton is_select={Completed ? "true" : "false"}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 7L6.5 11.5L14 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="#0F172A" />
                         </svg>
                         <span>수정 완료</span>
                     </EditButton>
-                    <DeleteButton disabled={Selected ? false : true}>
+                    <DeleteButton onClick={DelBtnClicked}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4 4L12 12" strokeWidth="2" strokeLinecap="round" stroke="white" />
                             <path d="M12 4L4 12" strokeWidth="2" strokeLinecap="round" stroke="white" />

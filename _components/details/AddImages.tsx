@@ -6,7 +6,6 @@ import { DetailCommons } from "./detail_commons";
 
 interface I_imagesComponents {
     imgurl?: string;
-    is_selected: boolean;
 };
 
 const AddImageContainer = styled(DetailCommons.img_container)`
