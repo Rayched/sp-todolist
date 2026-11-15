@@ -39,6 +39,9 @@ const TextBox = styled.div`
     }
 `;
 
+/**
+ * To Do 항목의 할 일 없는 경우 출력하는 이미지
+ */
 export function ToDoEmpty({ isdesktop }: I_Empty) {
     return (
         <Container>
@@ -57,6 +60,9 @@ export function ToDoEmpty({ isdesktop }: I_Empty) {
     );
 }
 
+/**
+ * Done 항목의 할 일 없는 경우 출력하는 이미지
+ */
 export function DoneEmpty({ isdesktop }: I_Empty) {
     return (
         <Container>

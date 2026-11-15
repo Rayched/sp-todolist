@@ -43,6 +43,7 @@ const InputButtonContainer = styled.button<{ isempty: string }>`
     }
 `;
 
+//모바일 화면용 할일 입력 form submit 버튼
 export function SmallInputButtons({ isEmptys }: I_InputButtons) {
     return (
         <InputButtonContainer isempty={isEmptys}>
@@ -60,26 +61,19 @@ export function SmallInputButtons({ isEmptys }: I_InputButtons) {
     );
 }
 
+//데스크탑, 태블릿 용 할 일 입력 form submit 버튼
 export function LargeInputButton({ isEmptys }: I_InputButtons) {
-    const { ToDosData } = useStore(ToDosDataStore);
-
     return (
         <InputButtonContainer isempty={isEmptys}>
             <div className="iconbox">
                 {
-                    ToDosData.length <= 0 ? (
-                        <svg width={"20"} height={"20"} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 8L14 8" strokeWidth="2" strokeLinecap="round" stroke="white" />
-                            <path d="M8 14L8 2" strokeWidth="2" strokeLinecap="round" stroke="white" />
-                        </svg>
+                    isEmptys.length <= 0 ? (
+                        <NonText_InputButtonIcon />
                     ) : null
                 }
                 {
-                    ToDosData.length > 0 ? (
-                        <svg width={"20"} height={"20"} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 12L21 12" strokeWidth="3" strokeLinecap="round" stroke="#64748B" />
-                            <path d="M12 21L12 3" strokeWidth="3" strokeLinecap="round" stroke="#64748B" />
-                        </svg>
+                    isEmptys.length > 0 ? (
+                        <Text_InputButtonIcon />
                     ) : null
                 }
             </div>

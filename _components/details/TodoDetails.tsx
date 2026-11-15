@@ -167,8 +167,9 @@ export default function ToDoDetails({ detaildata }: I_ToDoDetails) {
         } catch (error) {
             console.log(error);
         }
-        await UpdateToDo(ModifyData);
+
         router.push("/");
+        //할 일 수정 완료 후, Home으로 자동 이동
     };
 
     //DeleteBtn Click Event Listener

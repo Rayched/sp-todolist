@@ -87,6 +87,7 @@ const MemoTextArea = styled.textarea`
 `;
 
 export default function AddMemobox({ memotext, setMemotext }: I_AddMemobox) {
+    //textarea change event listener
     const MemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const {
             currentTarget: { value }

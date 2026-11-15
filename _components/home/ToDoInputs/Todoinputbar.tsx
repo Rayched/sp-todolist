@@ -60,6 +60,7 @@ export default function Todoinputbar() {
 
     const onValid = async ({ todoname }: I_FormValue) => {
         const trimmedToDo = todoname.trim();
+        //todoname 값, 양 끝 공백 제거
 
         if (!trimmedToDo) return;
 
