@@ -38,7 +38,6 @@ const ToDoItem = styled.div<{ completed: string }>`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
     border: 2px solid black;
     border-radius: 15px;
     background-color: ${(props) => props.completed === "true" ? "#EDE9FE" : "white"};
@@ -53,7 +52,7 @@ const ToDoItem = styled.div<{ completed: string }>`
     }
     
     .todoname_area {
-        width: 15%;
+        width: 50dvw;
         height: 100%;
         margin-left: 3px;
         display: flex;
@@ -61,9 +60,8 @@ const ToDoItem = styled.div<{ completed: string }>`
         justify-content: flex-start;
 
         input {
-            width: 65%;
+            width: 60dvw;
             height: 80%;
-            display: block;
             border: none;
             outline: none;
             font-size: 16px;

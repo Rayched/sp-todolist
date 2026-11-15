@@ -44,9 +44,9 @@ export function ToDoEmpty({ isdesktop }: I_Empty) {
         <Container>
             {
                 isdesktop === "true" ? (
-                    <img src={'/imgs/todoemptys/Type=Todo, Size=Large.svg'} />
+                    <img src={'/imgs/todo_empty_icons/ToDo_empty_large.svg'} />
                 ) : (
-                    <img src={'/imgs/todoemptys/Type=Todo, Size=Small.svg'} />
+                    <img src={'/imgs/todo_empty_icons/ToDo_empty_small.svg'} />
                 )
             }
             <TextBox>
@@ -62,9 +62,9 @@ export function DoneEmpty({ isdesktop }: I_Empty) {
         <Container>
             {
                 isdesktop === "true" ? (
-                    <img src={'/imgs/todoemptys/Type=Done, Size=Large.svg'} />
+                    <img src={'/imgs/todo_empty_icons/Done_empty_large.svg'} />
                 ) : (
-                    <img src={'/imgs/todoemptys/Type=Done, Size=Small.svg'} />
+                    <img src={'/imgs/todo_empty_icons/Done_empty_large.svg'} />
                 )
             }
             <TextBox>

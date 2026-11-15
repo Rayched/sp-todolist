@@ -3,6 +3,28 @@
  * 모아두고 관리하는 파일
  */
 
+//root page ('/', home, 할 일 목록 페이지)
+
+//text 입력 X, input button icon
+export function NonText_InputButtonIcon() {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12L21 12" strokeWidth="3" strokeLinecap="round" stroke="#64748B" />
+            <path d="M12 21L12 3" strokeWidth="3" strokeLinecap="round" stroke="#64748B" />
+        </svg>
+    );
+}
+
+//text 입력 O, input button icon
+export function Text_InputButtonIcon() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 8L14 8" strokeWidth="2" strokeLinecap="round" stroke="white" />
+            <path d="M8 14L8 2" strokeWidth="2" strokeLinecap="round" stroke="white" />
+        </svg>
+    );
+}
+
 //할 일 상세 페이지
 //비어있는 이미지 박스 정중앙 아이콘
 /**
@@ -21,7 +43,6 @@ export function Details_EmptyImageIcon() {
  * 할 일 상세 페이지 '/items/[itemId]'
  * 비어있는 이미지 박스 우측 하단, 이미지 추가 아이콘
  */
-
 export function Details_AddImageBtnIcon() {
     return (
         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +57,6 @@ export function Details_AddImageBtnIcon() {
  * 할 일 상세 페이지 '/items/[itemId]'
  * 이미지 편집 버튼 아이콘
  */
-
 export function Detail_EditImageBtnIcon() {
     return (
         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,0 +1,8 @@
+/*Nanum Square Font*/
+
+@font-face {
+    font-family: "Nanum-Square";
+    src: url("/fonts/NanumSquareR.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
