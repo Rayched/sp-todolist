@@ -9,10 +9,6 @@ export interface I_ToDo {
     imageUrl: string | null;
 };
 
-interface I_CreateToDoRequest {
-    name: string;
-};
-
 const TenantId = process.env.NEXT_PUBLIC_TENANT_ID;
 
 //사용자가 입력한 할 일을 등록하는 fetch function

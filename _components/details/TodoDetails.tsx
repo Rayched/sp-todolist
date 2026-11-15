@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { DoneCheckbox, ToDoCheckbox } from "../home/todolist/showitems/showitems_commons";
 import { DetailCommons } from "./detail_commons";
-import { AddImages, EditImages } from "./AddImages";
+import { AddImages } from "./AddImages";
 import AddMemobox from "./AddMemobox";
 import { ToDosDataStore } from "@/_stores/todosdata_store";
 import { useStore } from "zustand";
-import { DeleteToDo } from "@/app/_fetchs/UpdateToDo";
+import { DeleteToDo, I_UpdateToDoProps, UpdateToDo } from "@/app/_fetchs/UpdateToDo";
 import { useRouter } from "next/navigation";
 
 interface I_ToDoDetails {
@@ -153,6 +153,26 @@ export default function ToDoDetails({ detaildata }: I_ToDoDetails) {
         setToDoName(value)
     };
 
+    //EditBtn Click Event Listener
+    const EditBtnClicked = async () => {
+        const ModifyData: I_UpdateToDoProps = {
+            todo_id: detaildata.id,
+            todo_name: ToDoName,
+            is_completed: Completed,
+            image_url: ImgUrl,
+            memo_value: MemoValue
+        };
+
+        try {
+            const updateTest = await UpdateToDo(ModifyData);
+            console.log(updateTest);
+        } catch (error) {
+            console.log(error);
+        }
+        await UpdateToDo(ModifyData);
+        router.push("/");
+    };
+
     //DeleteBtn Click Event Listener
     const DelBtnClicked = async () => {
         const Confirms = window.confirm(`'할 일 명: ${detaildata.name}'\n해당 할일을 삭제 하시겠습니까?`);
@@ -166,41 +186,25 @@ export default function ToDoDetails({ detaildata }: I_ToDoDetails) {
         }
     };
 
-    /**
-     * 기존 todoitem의 값들 (name, isCompleted)
-     * 개별 state에 업데이트
-     */
-
-    /**
-     * detaildata => api로 가져온 할 일 상세 데이터
-     * imageurl, memo data가 null이 아닌 경우
-     * 기존에 추가된 이미지와 메모가 있다면
-     * 이를 화면에 출력해야 한다.
-     * 
-     * 그리고 detail page에서 이미지와 메모를 출력하는 역할을 하는
-     * <EditImages />, <AddMemobox />, 이하 두 컴포넌트는
-     * 개별적으로 전달된 state 값을 참고해서 image와 memo를 출력한다.
-     * 
-     * 두 컴포넌트에 전달되는 각기 다른 두개의 state의 초기 값은
-     * 전부 ""이기에 Rendering 되기 전 미리 useEffect hook 활용해서
-     * state 값을 업데이트를 해둔다.
-     */
     useEffect(() => {
-        //imageurl, memodata null인 경우 대비
-        if (!detaildata.imageUrl && !detaildata.memo) {
-            setCompleted(detaildata.isCompleted);
-            setToDoName(detaildata.name);
-            return;
-        } else if (!detaildata.imageUrl && detaildata.memo !== null) {
-            setMemoValue(detaildata.memo);
-        } else if (detaildata.imageUrl !== null && !detaildata.memo) {
-            setImgUrl(detaildata.imageUrl);
-        } else if (detaildata.imageUrl !== null && detaildata.memo !== null) {
-            setMemoValue(detaildata.memo);
-            setImgUrl(detaildata.imageUrl);
-        };
-        setCompleted(detaildata.isCompleted);
+        //할 일 이름 및 완료 여부 update
         setToDoName(detaildata.name);
+        setCompleted(detaildata.isCompleted);
+
+        //이미지 url, memo update
+        /**
+         * api 통해 가져온 할 일의 상세 데이터 중
+         * imageUrl과 memo의 type은 string|null이다.
+         * 
+         * 하위 컴포넌트인 <EditImages />, <AddMemobox />
+         * 이하 두 컴포넌트가 참조하는 state 두 개 모두 type=string이기에
+         * 이에 맞게, imageurl|memo가 null이면 ""을 state에 전달한다.
+         */
+        const convert_imgurl = detaildata.imageUrl ? detaildata.imageUrl : "";
+        const convert_memovalue = detaildata.memo ? detaildata.memo : "";
+
+        setImgUrl(convert_imgurl);
+        setMemoValue(convert_memovalue);
     }, []);
 
     return (
@@ -225,22 +229,17 @@ export default function ToDoDetails({ detaildata }: I_ToDoDetails) {
             </ToDoItem>
             <ResponsiveArea>
                 <div className="ImageAndMemoArea">
-                    {
-                        ImgUrl === "" ? (
-                            <AddImages />
-                        ) : (
-                            <EditImages
-                                imgurl={ImgUrl}
-                            />
-                        )
-                    }
+                    <AddImages
+                        imgurl={ImgUrl}
+                        setImgUrl={setImgUrl}
+                    />
                     <AddMemobox
                         memotext={MemoValue}
                         setMemotext={setMemoValue}
                     />
                 </div>
                 <div className="buttonsbox">
-                    <EditButton is_select={Completed ? "true" : "false"}>
+                    <EditButton is_select={Completed ? "true" : "false"} onClick={EditBtnClicked}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 7L6.5 11.5L14 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="#0F172A" />
                         </svg>
