@@ -61,7 +61,7 @@ const ToDoItem = styled.div<{ completed: string }>`
         justify-content: flex-start;
 
         input {
-            width: auto;
+            width: 65%;
             height: 80%;
             display: block;
             border: none;
